@@ -38,7 +38,7 @@ def train(tr_set_feature,tr_set_label):
     joblib.dump(model, svm_model_path)
 
 
-def classify(tst_set_feature,tst_set_label):
+def classify(tst_set_feature):#,tst_set_label):
     pca_model_path = r'trained\pca.pkl'
     normalization_path=r'trained\norm.pkl'
     svm_model_path = r'trained\svm.pkl'
@@ -50,15 +50,23 @@ def classify(tst_set_feature,tst_set_label):
     feat_std = normalization['std']
 
     svm = joblib.load(svm_model_path)
-
+    print (type(tst_set_feature))
     features = pca.transform(tst_set_feature)
 
     features -= feat_mean
     features /= feat_std
     
-    tst_predicted = svm.predict_proba(features)
-    tst_accuracy = np.mean(np.argmax(tst_predicted,axis=1)== tst_set_label)
+    tst_predicted = svm.predict(features)
+    print(tst_predicted)
+    l = []
+    for a in tst_predicted:
+        l.append(str(a) + ".0\n")
+    s = "".join(l)
+    f = open('result.txt','w')
+    f.write(s)
+    f.close()
+    #tst_accuracy = np.mean(np.argmax(tst_predicted,axis=1)== tst_set_label)
 
-    print "SVM Classification Accuracy:%f" % (tst_accuracy)
+    #print "SVM Classification Accuracy:%f" % (tst_accuracy)
 
 

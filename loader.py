@@ -27,17 +27,18 @@ input training file
 output  training feature
         training label
 '''
-def train_feature_loader(input_file):
+def train_feature_loader(input_file, label_file):
     tr_featureList = []
     tr_labelList = []
     with open(input_file,'r') as f:
         for line in f: #read in record
             tuples = line.split(",")
-            featurestr = tuples[1:len(tuples)]
+            featurestr = tuples[0:len(tuples)]
             features = map(lambda x:float(x),featurestr)
-            label = 1 if(tuples[0]=='1.0') else 0
-
             tr_featureList.append(features)
+    with open(label_file,'r') as f:
+        for line in f: #read in record
+            label = 1 if(line[:3]=='1.0') else 0
             tr_labelList.append(label)
 
     return {"featureList":tr_featureList,"labelList":tr_labelList}
