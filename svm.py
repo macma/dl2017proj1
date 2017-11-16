@@ -62,7 +62,7 @@ def classify(tst_set_feature):#,tst_set_label):
     for a in tst_predicted:
         l.append(str(a) + ".0\n")
     s = "".join(l)
-    f = open('result.txt','w')
+    f = open('project1_20413289.csv','w')
     f.write(s)
     f.close()
     #tst_accuracy = np.mean(np.argmax(tst_predicted,axis=1)== tst_set_label)
